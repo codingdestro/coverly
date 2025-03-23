@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { createCoverLetter } from "../../controllers/ai/coverletter";
+import {
+  createCoverLetter,
+  createResume,
+} from "../../controllers/ai/coverletter";
 
 const router = Router();
 
+router.post("/createresume", createResume);
 router.get("/coverletter", createCoverLetter);
 
 export default router;

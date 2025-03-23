@@ -65,7 +65,8 @@ export const getUserDetails = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const userDetails = await UserDetails.find({ userId });
   if (!userDetails) {
-    return res.status(404).json({ message: "User details not found" });
+    res.status(404).json({ message: "User details not found" });
+    return;
   }
   res.status(200).json(userDetails);
 };
@@ -74,7 +75,8 @@ export const getEducation = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const education = await Education.find({ userId });
   if (!education) {
-    return res.status(404).json({ message: "Education not found" });
+    res.status(404).json({ message: "Education not found" });
+    return;
   }
   res.status(200).json(education);
 };
@@ -83,7 +85,8 @@ export const getExperience = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const experience = await Experience.find({ userId });
   if (!experience) {
-    return res.status(404).json({ message: "Experience not found" });
+    res.status(404).json({ message: "Experience not found" });
+    return;
   }
   res.status(200).json(experience);
 };
@@ -92,7 +95,8 @@ export const getSocialMedia = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const socialMedia = await Social.find({ userId });
   if (!socialMedia) {
-    return res.status(404).json({ message: "Social media not found" });
+    res.status(404).json({ message: "Social media not found" });
+    return;
   }
   res.status(200).json(socialMedia);
 };
