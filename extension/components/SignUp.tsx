@@ -1,10 +1,10 @@
 import React from "react"
 
-interface LoginProps {
-  onSignup: () => void
+interface SignUpProps {
+  onSignin: () => void
 }
 
-const Login = ({ onSignup }: LoginProps) => {
+const SignUp = ({ onSignin }: SignUpProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
@@ -12,14 +12,27 @@ const Login = ({ onSignup }: LoginProps) => {
     const password = formData.get("password")
     console.log(email, password)
   }
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-violet-50">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
         <h1 className="text-3xl font-bold text-center text-violet-800">
-          Coverly Login
+          Coverly SignUp
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-violet-700">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="w-full px-4 py-2 mt-1 border border-violet-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              placeholder="Enter your name"
+            />
+          </div>
           <div>
             <label
               htmlFor="email"
@@ -56,9 +69,9 @@ const Login = ({ onSignup }: LoginProps) => {
         </form>
         <div className="text-center">
           <button
-            onClick={onSignup}
+            onClick={onSignin}
             className="text-sm text-violet-500 hover:text-violet-800">
-            Don't have an account? Sign up
+            Already have an account? Sign in
           </button>
         </div>
       </div>
@@ -66,4 +79,4 @@ const Login = ({ onSignup }: LoginProps) => {
   )
 }
 
-export default Login
+export default SignUp
