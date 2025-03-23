@@ -10,6 +10,8 @@
     "build:css": "tailwindcss -i ./styles/globals.css -o ./styles/output.css"
   },
   "dependencies": {
+    "@plasmohq/storage": "^1.15.0",
+    "axios": "^1.8.4",
     "plasmo": "0.90.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -28,6 +30,9 @@
     "typescript": "5.8.2"
   },
   "manifest": {
+    "permissions": [
+      "storage"
+    ],
     "host_permissions": [
       "https://*/*"
     ]

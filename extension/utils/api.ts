@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js"
+import axios from "axios"
 
 interface ApiCallOptions<T> {
   url: string
@@ -27,21 +28,20 @@ export function useApiCall<T>(): [
     const { url, method = "GET", body, headers = {} } = options
 
     try {
-      const response = await fetch(url, {
+      const response = await axios({
+        url,
         method,
         headers: {
           "Content-Type": "application/json",
           ...headers
         },
-        body: body ? JSON.stringify(body) : undefined
+        data: body
       })
-
-      const data = await response.json()
 
       const result: ApiResponse<T> = {
         status: response.status,
-        data: response.ok ? data : null,
-        error: response.ok ? null : new Error(data.message || `HTTP error! status: ${response.status}`)
+        data: response.data,
+        error: null
       }
 
       setState(result)
@@ -49,7 +49,7 @@ export function useApiCall<T>(): [
     } catch (error) {
       const err = error instanceof Error ? error : new Error("An unknown error occurred")
       const result: ApiResponse<T> = {
-        status: 0,
+        status: axios.isAxiosError(error) ? error.response?.status || 0 : 0,
         data: null,
         error: err
       }

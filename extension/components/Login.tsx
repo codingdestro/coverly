@@ -1,16 +1,47 @@
 import React from "react"
+import { useApiCall } from "~utils/api"
+import { Storage } from "@plasmohq/storage"
+
+interface LoginResponse {
+  token: string
+}
 
 interface LoginProps {
   onSignup: () => void
 }
 
 const Login = ({ onSignup }: LoginProps) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [executeApiCall, apiState] = useApiCall<LoginResponse>()
+  const storage = new Storage()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
     const email = formData.get("email")
     const password = formData.get("password")
-    console.log(email, password)
+
+    const { data, error } = await executeApiCall({
+      url: "http://localhost:3000/api/login", 
+      method: "POST",
+      body: { email, password }
+    })
+
+    if (error) {
+      console.log(error)
+      return
+    }
+
+    if (data?.token) {
+      try {
+        await storage.set("authToken", data.token)
+        await chrome.storage.local.set({ authToken: data.token })
+        console.log("Auth token stored successfully")
+      } catch (err) {
+        console.error('Failed to save auth token:', err)
+      }
+    }
+
+    console.log(data)
   }
 
   return (
