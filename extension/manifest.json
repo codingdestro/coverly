@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Coverly",
+  "version": "1.0.0",
+  "description": "A Chrome extension for managing and organizing your browser tabs",
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+} 
