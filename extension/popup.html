@@ -1,7 +1,10 @@
 <html>
   <head>
     <title>Coverly</title>
-    <link rel="stylesheet" href="styles/popup.css" />
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components/auth.css">
+    <link rel="stylesheet" href="/styles/components/education.css">
+    <link rel="stylesheet" href="/styles/components/resume.css">
   </head>
   <body>
     <div class="container">
@@ -32,8 +35,99 @@
         <p id="signup-toggle" class="login-toggle">Already have an account? Login</p>
       </div>
       <!--user signup end-->
+
+    <!--Main content-->
+    <div id="main-content">
+      <div class="resume-form-container">
+        <h2>Your Resume Details</h2>
+        <form id="resume-form" class="resume-form">
+          <div class="form-group">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="fullName" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="summary">Professional Summary</label>
+            <textarea id="summary" name="summary" rows="4" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="experience">Work Experience</label>
+            <textarea id="experience" name="experience" rows="6" required></textarea>
+            <small class="help-text">List your work experience with dates and descriptions</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="education">Education</label>
+            <div id="education-container">
+              <!-- Template for education entry -->
+              <div class="education-entry" data-entry-id="0">
+                <div class="education-header">
+                  <h4>Education #1</h4>
+                  <button type="button" class="remove-education" onclick="removeEducation(this)">×</button>
+                </div>
+                <div class="education-fields">
+                  <div class="input-row">
+                    <input type="text" name="institution" placeholder="Institution" required>
+                    <input type="text" name="degree" placeholder="Degree" required>
+                  </div>
+                  <div class="input-row">
+                    <input type="text" name="major" placeholder="Major/Field of Study" required>
+                    <input type="text" name="gpa" placeholder="GPA (optional)">
+                  </div>
+                  <div class="input-row date-row">
+                    <div class="date-field">
+                      <label>Start Date</label>
+                      <input type="month" name="start_date" required>
+                    </div>
+                    <div class="date-field">
+                      <label>End Date</label>
+                      <input type="month" name="end_date" required>
+                      <label class="checkbox-label">
+                        <input type="checkbox" name="current" onchange="toggleEndDate(this)">
+                        Currently Studying
+                      </label>
+                    </div>
+                  </div>
+                  <div class="input-row">
+                    <textarea name="achievements" rows="3" placeholder="Achievements, honors, relevant coursework..."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" id="add-education-btn" class="secondary-btn">+ Add Another Education</button>
+          </div>
+          
+          <div class="form-group">
+            <label for="skills">Skills</label>
+            <textarea id="skills" name="skills" rows="3" required></textarea>
+            <small class="help-text">List your key skills, separated by commas</small>
+          </div>
+          
+          <button type="submit" class="submit-btn">Save Resume Details</button>
+        </form>
+      </div>
     </div>
+    <!--Main content end-->
+    </div>
+
+
     <script src="lib/axios.min.js"></script>
-    <script src="popup.js"></script>
+    <script type="module" src="src/app.js"></script>
   </body>
 </html>
