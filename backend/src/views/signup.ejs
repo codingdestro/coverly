@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Coverly</title>
+    <title>Sign Up - Coverly</title>
     <style>
         :root {
             --primary-color: #7c3aed;
@@ -39,7 +39,7 @@
             text-align: center;
         }
 
-        .login-form {
+        .signup-form {
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -79,6 +79,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s;
+            margin-top: 0.5rem;
         }
 
         button:hover {
@@ -89,50 +90,65 @@
             color: #dc2626;
             font-size: 0.875rem;
             margin-top: 0.5rem;
-            text-align: center;
         }
 
-        .signup-link {
+        .message {
+            color: var(--primary-color);
             text-align: center;
-            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
             color: #4b5563;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
 
-        .signup-link a {
+        .login-link a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 500;
         }
 
-        .signup-link a:hover {
+        .login-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome Back</h1>
-        
-        <form class="login-form" action="/login" method="POST">
+        <h1>Create Account</h1>
+        <form class="signup-form" action="/signup" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username">
+            </div>
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required placeholder="Enter your email">
             </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="Enter your password">
+                <input type="password" id="password" name="password" required placeholder="Create a password">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
             </div>
 
             <% if (typeof error !== 'undefined' && error) { %>
                 <div class="error-message"><%= error %></div>
             <% } %>
 
-            <button type="submit">Log In</button>
+            <button type="submit">Sign Up</button>
         </form>
 
-        <div class="signup-link">
-            Don't have an account? <a href="/signup">Sign up</a>
+        <div class="login-link">
+            Already have an account? <a href="/">Log in</a>
         </div>
     </div>
 </body>
