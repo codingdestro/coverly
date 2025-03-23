@@ -5,6 +5,7 @@ import { closeDB, connectDB } from "./config/database";
 import { errorHandler } from "./middleware/errorHandler";
 import userRoutes from "./routes/user";
 import deepseekRoutes from "./routes/deepseek";
+import userDetailsRoutes from "./routes/userDetails";
 // Load environment variables
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/", userRoutes);
 app.use("/api/deepseek", deepseekRoutes);
+app.use("/api/userDetails", userDetailsRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
