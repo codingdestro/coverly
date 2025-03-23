@@ -8,18 +8,43 @@ import {
 
 //adding user details to db
 export const addUserDetails = async (req: Request, res: Response) => {
-  const { name, email, phone, address, city, state, zip } = req.body;
-  const userDetails = new UserDetails({
-    name,
-    email,
-    phone,
-    address,
-    city,
-    state,
-    zip,
-  });
-  await userDetails.save();
-  res.status(201).json(userDetails);
+  try {
+    const { name, email, phone, city, state, zip } = req.body;
+    const userId = req.body.user.userId;
+
+    // Check if user details already exist
+    let userDetails = await UserDetails.findOne({ userId });
+
+    if (userDetails) {
+      // Update existing user details
+      userDetails.name = name;
+      userDetails.email = email;
+      userDetails.phone = phone;
+      userDetails.city = city;
+      userDetails.state = state;
+      userDetails.zip = zip;
+      userDetails.updatedAt = new Date();
+      await userDetails.save();
+    } else {
+      // Create new user details
+      userDetails = new UserDetails({
+        userId,
+        name,
+        email,
+        phone,
+        city,
+        state,
+        zip,
+      });
+      await userDetails.save();
+    }
+
+    // Redirect back to dashboard with success message
+    res.redirect("/dashboard?message=Details saved successfully");
+  } catch (error) {
+    console.error("Error saving user details:", error);
+    res.redirect("/dashboard?error=Failed to save details");
+  }
 };
 
 export const addSocialMedia = async (req: Request, res: Response) => {

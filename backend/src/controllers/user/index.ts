@@ -99,27 +99,39 @@ export const authenticate = async (
   const token =
     req.headers.cookie?.split("=")[1] ||
     req.headers.authorization?.split(" ")[1];
-  if (!token) {
-    return res.redirect("/");
-  }
+  const path = req.path;
+  if (token) {
+    try {
+      const payload = await verifyToken(token);
+      const user = await User.findById(payload.userId);
 
-  try {
-    const payload = await verifyToken(token);
-    const user = await User.findById(payload.userId);
+      if (user) {
+        res.locals.user = {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+        };
+      } else {
+        if (path === "/") {
+          return res.render("index");
+        } else if (path === "/signup") {
+          return res.render("signup");
+        } else {
+          return res.redirect("/");
+        }
+      }
 
-    if (!user) {
+      return next();
+    } catch {
       return res.redirect("/");
     }
-
-    // Add user to response locals for use in templates
-    res.locals.user = {
-      userId: user._id,
-      name: user.name,
-      email: user.email,
-    };
-
-    return next();
-  } catch {
-    return res.redirect("/");
+  } else {
+    if (path === "/") {
+      return res.render("index");
+    } else if (path === "/signup") {
+      return res.render("signup");
+    } else {
+      return res.redirect("/");
+    }
   }
 };

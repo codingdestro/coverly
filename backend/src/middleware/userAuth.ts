@@ -6,10 +6,11 @@ export const userAuth = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.cookies.token;
+  const token = req.headers.cookie?.split("=")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 
   try {
@@ -17,6 +18,7 @@ export const userAuth = async (
     req.body.user = payload;
     next();
   } catch {
-    return res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 };

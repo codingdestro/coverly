@@ -9,6 +9,11 @@
         --primary-color: #7c3aed;
         --primary-light: #a78bfa;
         --primary-dark: #5b21b6;
+        --text-color: #4b5563;
+        --background-color: #f5f5f5;
+        --white: #ffffff;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
 
       body {
@@ -18,14 +23,14 @@
         line-height: 1.6;
         margin: 0;
         padding: 0;
-        background-color: #f5f5f5;
+        background-color: var(--background-color);
         min-height: 100vh;
       }
 
       .navbar {
-        background-color: white;
+        background-color: var(--white);
         padding: 1rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--box-shadow);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -45,15 +50,15 @@
       }
 
       .user-name {
-        color: #4b5563;
+        color: var(--text-color);
       }
 
       .logout-button {
         background-color: var(--primary-color);
-        color: white;
+        color: var(--white);
         padding: 0.5rem 1rem;
         border: none;
-        border-radius: 6px;
+        border-radius: var(--border-radius);
         font-size: 0.875rem;
         font-weight: 500;
         cursor: pointer;
@@ -72,10 +77,10 @@
       }
 
       .welcome-section {
-        background-color: white;
+        background-color: var(--white);
         padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
         margin-bottom: 2rem;
       }
 
@@ -85,8 +90,182 @@
       }
 
       .welcome-section p {
-        color: #4b5563;
+        color: var(--text-color);
         margin-bottom: 0;
+      }
+
+      .user-details-section {
+        background-color: var(--white);
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin-bottom: 2rem;
+      }
+
+      .user-details-section h2 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .user-details-section form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem;
+      }
+
+      .form-group {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .user-details-section label {
+        color: var(--text-color);
+        font-weight: 500;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .user-details-section input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        color: var(--text-color);
+        transition: border-color 0.2s;
+      }
+
+      .user-details-section input:focus {
+        outline: none;
+        border-color: var(--primary-light);
+      }
+
+      .user-details-section button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        align-self: flex-start;
+      }
+
+      .user-details-section button:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+      }
+
+      .alert-success {
+        background-color: #ecfdf5;
+        color: #047857;
+        border: 1px solid #047857;
+      }
+
+      .alert-error {
+        background-color: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #b91c1c;
+      }
+
+      .current-details {
+        background-color: #f8fafc;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+        border: 1px solid #e2e8f0;
+      }
+
+      .current-details h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .detail-label {
+        color: var(--text-color);
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      .detail-value {
+        color: #1f2937;
+        font-size: 1rem;
+      }
+
+      h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      .edit-button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-top: 1rem;
+      }
+
+      .edit-button:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .cancel-button {
+        background-color: #e5e7eb;
+        color: #4b5563;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .cancel-button:hover {
+        background-color: #d1d5db;
       }
     </style>
   </head>
@@ -110,7 +289,137 @@
         </p>
       </section>
 
-      <!-- Add more dashboard content here -->
+      <!-- User Details Section -->
+      <section class="user-details-section">
+        <h2>User Details</h2>
+        <% if (typeof message !== 'undefined') { %>
+          <div class="alert alert-success">
+            <%= message %>
+          </div>
+        <% } %>
+        <% if (typeof error !== 'undefined') { %>
+          <div class="alert alert-error">
+            <%= error %>
+          </div>
+        <% } %>
+
+        <% if (userDetails && Object.keys(userDetails).length > 0) { %>
+          <div class="current-details">
+            <h3>Current Information</h3>
+            <div class="details-grid">
+              <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value"><%= userDetails.name %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Email:</span>
+                <span class="detail-value"><%= userDetails.email %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Phone:</span>
+                <span class="detail-value"><%= userDetails.phone || 'Not provided' %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">City:</span>
+                <span class="detail-value"><%= userDetails.city || 'Not provided' %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">State:</span>
+                <span class="detail-value"><%= userDetails.state || 'Not provided' %></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">ZIP:</span>
+                <span class="detail-value"><%= userDetails.zip || 'Not provided' %></span>
+              </div>
+            </div>
+            <button type="button" class="edit-button" onclick="toggleEditForm()">Edit Details</button>
+          </div>
+
+          <div id="updateForm" class="hidden">
+            <h3>Update Information</h3>
+            <form action="/api/userDetails" method="POST">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input type="text" id="name" name="name" required value="<%= userDetails.name || '' %>" />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="email" name="email" required value="<%= userDetails.email || '' %>" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="phone">Phone:</label>
+                  <input type="tel" id="phone" name="phone" value="<%= userDetails.phone || '' %>" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City:</label>
+                  <input type="text" id="city" name="city" value="<%= userDetails.city || '' %>" />
+                </div>
+                <div class="form-group">
+                  <label for="state">State:</label>
+                  <input type="text" id="state" name="state" value="<%= userDetails.state || '' %>" />
+                </div>
+                <div class="form-group">
+                  <label for="zip">Zip:</label>
+                  <input type="text" id="zip" name="zip" value="<%= userDetails.zip || '' %>" />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit">Update Details</button>
+                <button type="button" class="cancel-button" onclick="toggleEditForm()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        <% } else { %>
+          <div id="updateForm">
+            <h3>Add Your Information</h3>
+            <form action="/api/userDetails" method="POST">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input type="text" id="name" name="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="email" name="email" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="phone">Phone:</label>
+                  <input type="tel" id="phone" name="phone" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City:</label>
+                  <input type="text" id="city" name="city" />
+                </div>
+                <div class="form-group">
+                  <label for="state">State:</label>
+                  <input type="text" id="state" name="state" />
+                </div>
+                <div class="form-group">
+                  <label for="zip">Zip:</label>
+                  <input type="text" id="zip" name="zip" />
+                </div>
+              </div>
+              <button type="submit">Save Details</button>
+            </form>
+          </div>
+        <% } %>
+      </section>
     </div>
+
+    <script>
+      function toggleEditForm() {
+        const updateForm = document.getElementById('updateForm');
+        updateForm.classList.toggle('hidden');
+      }
+    </script>
   </body>
 </html>
