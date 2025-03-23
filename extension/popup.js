@@ -1,70 +1,120 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const tabsList = document.getElementById('tabs-list');
-  const saveTabButton = document.getElementById('save-tab');
-  const clearAllButton = document.getElementById('clear-all');
+// Configure axios defaults
+axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.headers.common["Content-Type"] = "application/json";
+const userLogin = document.getElementById("user-login");
+const userSignup = document.getElementById("user-signup");
 
-  // Load saved tabs
-  loadSavedTabs();
+const signupButton = document.getElementById("signup");
+const signupToggle = document.getElementById("signup-toggle");
+const loginToggle = document.getElementById("login-toggle");
 
-  // Save current tab
-  saveTabButton.addEventListener('click', async () => {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    saveTab(tab);
-  });
+userLogin.style.display = "none";
+userSignup.style.display = "none";
 
-  // Clear all saved tabs
-  clearAllButton.addEventListener('click', () => {
-    chrome.storage.local.set({ savedTabs: [] }, () => {
-      loadSavedTabs();
-    });
-  });
+//authen the user on first load
+(async () => {
+  try {
+    const { token } = await chrome.storage.local.get("token");
+    const response = await axios.post(
+      "/api/authenticate",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.data.user) {
+      chrome.storage.local.set({
+        user: response.data.user,
+      });
+      userLogin.style.display = "none";
+    } else {
+      chrome.storage.local.remove("user");
+      userLogin.style.display = "flex";
+    }
+  } catch (error) {
+    console.log("Failed to authenticate user:", error);
+    chrome.storage.local.remove("user");
+    userLogin.style.display = "flex";
+  }
+})();
+
+//login button
+const loginButton = document.getElementById("login");
+
+loginButton.addEventListener("click", async () => {
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  try {
+    const response = await axios.post("/api/login", { email, password });
+
+    if (response.data) {
+      chrome.storage.local.set({
+        token: response.data.token,
+      });
+      chrome.storage.local.set({
+        token: response.data.token,
+        user: response.data.user,
+      });
+      userLogin.style.display = "none";
+    } else {
+      console.log("Login failed:", response.data.message);
+    }
+  } catch (error) {
+    console.log("Login error:", error);
+  }
 });
 
-async function loadSavedTabs() {
-  const { savedTabs = [] } = await chrome.storage.local.get('savedTabs');
-  const tabsList = document.getElementById('tabs-list');
-  tabsList.innerHTML = '';
+//login toggle
 
-  savedTabs.forEach(tab => {
-    const tabElement = createTabElement(tab);
-    tabsList.appendChild(tabElement);
-  });
-}
+loginToggle.addEventListener("click", () => {
+  userLogin.style.display = "none";
+  userSignup.style.display = "flex";
+});
 
-function createTabElement(tab) {
-  const div = document.createElement('div');
-  div.className = 'tab-item';
-  
-  const favicon = document.createElement('img');
-  favicon.className = 'tab-favicon';
-  favicon.src = tab.favIconUrl || 'icons/icon16.png';
-  
-  const title = document.createElement('span');
-  title.className = 'tab-title';
-  title.textContent = tab.title;
-  
-  div.appendChild(favicon);
-  div.appendChild(title);
-  
-  div.addEventListener('click', () => {
-    chrome.tabs.create({ url: tab.url });
-  });
-  
-  return div;
-}
+//signup toggle
 
-async function saveTab(tab) {
-  const { savedTabs = [] } = await chrome.storage.local.get('savedTabs');
-  
-  // Check if tab is already saved
-  if (!savedTabs.some(savedTab => savedTab.url === tab.url)) {
-    savedTabs.push({
-      title: tab.title,
-      url: tab.url,
-      favIconUrl: tab.favIconUrl
-    });
-    
-    await chrome.storage.local.set({ savedTabs });
-    loadSavedTabs();
+signupToggle.addEventListener("click", () => {
+  userLogin.style.display = "flex";
+  userSignup.style.display = "none";
+});
+
+//signup button
+
+signupButton.addEventListener("click", async () => {
+  const name = document.getElementById("signup-name").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  if (!name || !email || !password) {
+    alert("Please fill all the fields");
+    return;
   }
-} 
+
+  try {
+    const response = await axios.post("/api/register", {
+      name,
+      email,
+      password,
+    });
+
+    if (response.data.user) {
+      console.log("Registration successful:", response.data.user);
+      chrome.storage.local.set({
+        user: response.data.user,
+        token: response.data.token,
+      });
+      // Switch back to login view
+      userSignup.style.display = "none";
+      userLogin.style.display = "none";
+      // You can add success message display here
+    } else {
+      console.log("Registration failed:", response.data.message);
+      // You can add error message display here
+    }
+  } catch (error) {
+    console.log("Registration error:", error);
+  }
+});

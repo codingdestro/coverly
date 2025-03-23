@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { closeDB, connectDB } from "./config/database";
-import homeRoutes from "./routes/homeRoutes";
 import { errorHandler } from "./middleware/errorHandler";
+import userRoutes from "./routes/user";
 
 // Load environment variables
 dotenv.config();
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/", homeRoutes);
+app.use("/api/", userRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

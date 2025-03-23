@@ -1,20 +1,39 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>Coverly</title>
-  <link rel="stylesheet" href="styles/popup.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Coverly</h1>
-    <div class="tabs-container">
-      <div id="tabs-list"></div>
+  <head>
+    <title>Coverly</title>
+    <link rel="stylesheet" href="styles/popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!--header start-->
+      <div class="header">
+        <h1>Coverly</h3>
+        <p>Automates your cover letter creation with AI</p>
+      </div>
+      <!--header end-->
+
+      <!-- user login -->
+      <div id="user-login" class="user-login">
+        <h3 class="login-title">Login</h3>
+        <input type="email" id="login-email" placeholder="Email" />
+        <input type="password" id="login-password" placeholder="Password" />
+        <button id="login">Login</button>
+        <p id="login-toggle" class="login-toggle">Don't have an account? Signup</p>
+      </div>
+      <!-- user login end -->
+
+      <!-- user signup -->
+      <div id="user-signup" class="user-login">
+        <h3 class="login-title">Signup</h3>
+        <input type="text" id="signup-name" placeholder="Name" />
+        <input type="email" id="signup-email" placeholder="Email" />
+        <input type="password" id="signup-password" placeholder="Password" />
+        <button id="signup">Signup</button>
+        <p id="signup-toggle" class="login-toggle">Already have an account? Login</p>
+      </div>
+      <!--user signup end-->
     </div>
-    <div class="actions">
-      <button id="save-tab">Save Current Tab</button>
-      <button id="clear-all">Clear All</button>
-    </div>
-  </div>
-  <script src="popup.js"></script>
-</body>
-</html> 
+    <script src="lib/axios.min.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

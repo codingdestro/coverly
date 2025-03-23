@@ -22,23 +22,22 @@ export const login = async (req: Request, res: Response) => {
     email: user.email,
   });
 
-  //send token in httpOnly cookie
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  res.status(200).json({
+    message: "Logged in successfully",
+    token,
+    user: { userId: user._id, name: user.name, email: user.email },
   });
-
-  res.status(200).json({ message: "Logged in successfully" });
 };
 
 export const logout = async (req: Request, res: Response) => {
-  res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
 };
 
 export const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -54,17 +53,15 @@ export const register = async (req: Request, res: Response) => {
     email: user.email,
   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  res.status(201).json({
+    message: "User created successfully",
+    token,
+    user: { userId: user._id, name: user.name, email: user.email },
   });
-
-  res.status(201).json({ message: "User created successfully" });
 };
 
 export const authenticate = async (req: Request, res: Response) => {
-  const token = req.cookies.token;
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -79,7 +76,10 @@ export const authenticate = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    res.status(200).json({ message: "Authenticated", user });
+    res.status(200).json({
+      message: "Authenticated",
+      user: { userId: user._id, name: user.name, email: user.email },
+    });
   } catch {
     res.status(401).json({ message: "Unauthorized" });
   }
