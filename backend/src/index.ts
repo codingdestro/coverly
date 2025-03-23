@@ -1,17 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import { closeDB, connectDB } from "./config/database";
 import { errorHandler } from "./middleware/errorHandler";
 import userRoutes from "./routes/user";
-
+import deepseekRoutes from "./routes/deepseek";
 // Load environment variables
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/", userRoutes);
-
+app.use("/api/deepseek", deepseekRoutes);
 // Error handling middleware
 app.use(errorHandler);
 

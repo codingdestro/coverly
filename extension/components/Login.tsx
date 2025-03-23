@@ -34,7 +34,7 @@ const Login = ({ onSignup }: LoginProps) => {
     if (data?.token) {
       try {
         await storage.set("authToken", data.token)
-        await chrome.storage.local.set({ authToken: data.token })
+        await chrome.storage.sync.set({ authToken: data.token })
         console.log("Auth token stored successfully")
       } catch (err) {
         console.error('Failed to save auth token:', err)
