@@ -65,4 +65,8 @@ router.get("/dashboard", authenticate, async (req, res) => {
   }
 });
 
+router.get("/coverletter", authenticate, (req, res) => {
+  res.render("coverletter");
+});
+
 export default router;

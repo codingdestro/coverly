@@ -64,7 +64,6 @@ export const addEducation = async (req: Request, res: Response) => {
   try {
     const { school, degree, fieldOfStudy, startDate, endDate, description } =
       req.body;
-    console.log(req.body);
     const userId = req.body.user.userId;
     const education = new Education({
       userId,
