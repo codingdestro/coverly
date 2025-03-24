@@ -12,6 +12,8 @@ import {
 } from "../../models/userDetails";
 
 export const createCoverLetter = async (req: Request, res: Response) => {
+  const user = res.locals.user;
+  const userId = user.userId;
   const jobDescription = `
   Job Title: Full Stack Web Developer Intern (Paid)
 Company: WebBoost Solutions by UM
@@ -43,14 +45,24 @@ Equal Opportunity
 WebBoost Solutions by UM is an equal opportunity employer, encouraging applications from candidates of all backgrounds.
 `;
 
+  const userDetails = await UserDetails.find({ userId });
+  const education = await Education.find({ userId });
+  const experience = await Experience.find({ userId });
+  const socialMedia = await Social.find({ userId }); // select every filed except ids
+
+  const userDetailsString = JSON.stringify(userDetails);
+  const educationString = JSON.stringify(education);
+  const experienceString = JSON.stringify(experience);
+  const socialMediaString = JSON.stringify(socialMedia);
+
   const candidateDetails = `
-my name is mohd anas
-my email is anas@gmail.com
-my phone number is 9876543210
-my skills are html, css, javascript, react, node.js, express, mongodb
-my experience is 1 year
-my education is btech
+  ${userDetailsString}
+  ${educationString}
+  ${experienceString}
+  ${socialMediaString}
 `;
+
+  console.log(candidateDetails);
 
   const prompt = createCoverLetterPrompt(jobDescription, candidateDetails);
   const coverLetter = await deepseek(prompt);

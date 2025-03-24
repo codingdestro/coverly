@@ -12,21 +12,22 @@ export const createCoverLetterPrompt = (
   const promptTemplate = `
 Write a concise and formal cover letter in simple English for a job application. Use the following details:
 
-Applicant's Name: ${candidateDetails}
+Applicant's Name: 
 
-Applicant's Key Skills/Qualifications: ${candidateDetails}
+Applicant's Key Skills/Qualifications: 
 
-Job Title: ${jobDescription}
+Job Title: 
 
-Company Name: ${jobDescription}
+Company Name: 
 
-Key Requirements from Job Description: ${jobDescription}
+Key Requirements from Job Description: 
 
-Why the Applicant is a Good Fit: ${jobDescription}
+Why the Applicant is a Good Fit: 
 
-Call to Action: ${jobDescription}
+Call to Action: 
 
 Ensure the letter is professional, concise (no more than 150-200 words), and free of unnecessary jargon.
+get the user details and job description from the json string ${candidateDetails} and ${jobDescription}
 `;
   return promptTemplate;
 };
