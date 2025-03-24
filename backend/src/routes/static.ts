@@ -1,6 +1,11 @@
 import express from "express";
 import { login, register, authenticate } from "../controllers/user";
-import { UserDetails } from "../models/userDetails";
+import {
+  UserDetails,
+  Education,
+  Experience,
+  Social,
+} from "../models/userDetails";
 
 const router = express.Router();
 
@@ -28,22 +33,34 @@ router.post("/signup", register);
 // Protected routes
 router.get("/dashboard", authenticate, async (req, res) => {
   try {
-    const userDetails = await UserDetails.findOne({
-      userId: res.locals.user.userId,
-    });
+    const userId = res.locals.user.userId;
+    const [userDetails, educationList, experienceList, socialList] =
+      await Promise.all([
+        UserDetails.findOne({ userId }),
+        Education.find({ userId }).sort({ startDate: -1 }),
+        Experience.find({ userId }).sort({ startDate: -1 }),
+        Social.find({ userId }),
+      ]);
+
     res.render("dashboard", {
       user: res.locals.user,
       userDetails: userDetails || {},
+      educationList,
+      experienceList,
+      socialList,
       message: req.query.message,
       error: req.query.error,
     });
   } catch (error) {
-    console.error("Error fetching user details:", error);
+    console.error("Error fetching user data:", error);
     res.render("dashboard", {
       user: res.locals.user,
       userDetails: {},
+      educationList: [],
+      experienceList: [],
+      socialList: [],
       message: undefined,
-      error: "Failed to load user details",
+      error: "Failed to load user data",
     });
   }
 });

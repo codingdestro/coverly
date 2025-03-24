@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 //Eduction schema
 const educationSchema = new mongoose.Schema({
-  id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   school: String,
   degree: String,
   fieldOfStudy: String,
@@ -14,7 +14,7 @@ const educationSchema = new mongoose.Schema({
 
 //Experience schema
 const experienceSchema = new mongoose.Schema({
-  id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   company: String,
   title: String,
   location: String,
@@ -25,7 +25,7 @@ const experienceSchema = new mongoose.Schema({
 });
 
 const socialSchema = new mongoose.Schema({
-  id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   social: String,
   url: String,
 });

@@ -107,7 +107,7 @@ export const authenticate = async (
 
       if (user) {
         res.locals.user = {
-          userId: user._id,
+          userId: user._id.toString(),
           name: user.name,
           email: user.email,
         };
