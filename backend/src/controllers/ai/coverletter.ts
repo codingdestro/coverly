@@ -25,7 +25,6 @@ export const createCoverLetter = async (req: Request, res: Response) => {
   const educationString = JSON.stringify(education);
   const experienceString = JSON.stringify(experience);
   const socialMediaString = JSON.stringify(socialMedia);
-  console.log(jobDescription);
 
   const candidateDetails = `
   ${userDetailsString}
@@ -35,7 +34,7 @@ export const createCoverLetter = async (req: Request, res: Response) => {
 `;
 
   const prompt = createCoverLetterPrompt(jobDescription, candidateDetails);
-  const coverLetter = await deepseek(prompt);
+  const coverLetter = await deepseek(prompt, userDetailsString);
   res.json(coverLetter);
 };
 

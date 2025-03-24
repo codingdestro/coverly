@@ -13,20 +13,12 @@ export const createCoverLetterPrompt = (
 Write a concise and formal cover letter in simple English for a job application. Use the following details:
 
 Applicant's Name: 
-
 Applicant's Key Skills/Qualifications: 
-
 Job Title: 
-
 Company Name: 
-
 Key Requirements from Job Description: 
-
 Why the Applicant is a Good Fit: 
-
 Call to Action: 
-
-Ensure the letter is professional, concise (no more than 150-200 words), and free of unnecessary jargon.
 get the user details and job description from the json string ${candidateDetails} and ${jobDescription}
 `;
   return promptTemplate;
@@ -270,18 +262,22 @@ export const createResumePrompt = (
 
 \\end{document}  
 \`\`\`
+fix the latex code to be valid latex code and make it look good, don't use any by itself if the user details are not provided, use the social media links if provided.
+give output in raw latex code.
   `;
   return promptTemplate;
 };
 
-const deepseek = async (prompt: string): Promise<DeepseekResponse | null> => {
+const deepseek = async (
+  prompt: string,
+  userDetails?: string,
+): Promise<DeepseekResponse | null> => {
   const response = await openai.chat.completions.create({
     model: "deepseek-chat",
     messages: [
       {
         role: "system",
-        content:
-          "You are a helpful assistant that creates a cover letter for a given job description and candidate details.",
+        content: `You are a helpful assistant that creates a cover letter for a given job description and candidate details. organize the coverletter in a way that is easy to read and understand properly and use proper given details. the output should be in raw text don't add any comments or anything else. ${userDetails}`,
       },
       { role: "user", content: prompt },
     ],
