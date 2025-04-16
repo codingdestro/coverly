@@ -6,6 +6,8 @@ $("form").on("submit", (e) => {
     email: elements[0],
     password: elements[1],
   });
+  // $(".alert").addClass("show");
+  createAlert("failed to login!","form")
 });
 
 $(".switch-btn").on("click", () => {
