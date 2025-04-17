@@ -3,7 +3,11 @@ import type { Request, Response, NextFunction } from "express";
 import { generateToken, verifyToken } from "../../utils/jwt";
 import bcrypt from "bcrypt";
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { email, password } = req.body;
 
   try {
@@ -31,7 +35,10 @@ export const login = async (req: Request, res: Response) => {
     });
 
     // Redirect to dashboard or home page after successful login
-    res.redirect("/dashboard");
+    // res.json({ token }).status(200);
+    // res.redirect("/dashboard");
+    req.body.token = token;
+    next();
   } catch (error) {
     console.error("Login error:", error);
     res.render("index", { error: "An error occurred during login" });
@@ -121,17 +128,17 @@ export const authenticate = async (
         }
       }
 
-      return next();
+      next();
     } catch {
-      return res.redirect("/");
+      res.json({ error: "UnAuthorize" }).status(401);
     }
   } else {
     if (path === "/") {
-      return res.render("index");
+      res.render("index");
     } else if (path === "/signup") {
-      return res.render("signup");
+      res.render("signup");
     } else {
-      return res.redirect("/");
+      res.json({ error: "UnAuthorize" }).status(401);
     }
   }
 };
