@@ -162,7 +162,7 @@
           const jobDescription = formData.get("jobDescription");
 
           try {
-            const response = await fetch("/api/deepseek/coverletter", {
+            const response = await fetch("/api/deepseek/resume", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -175,7 +175,7 @@
             }
 
             const data = await response.json();
-            result.textContent = data.coverLetter;
+            result.textContent = data.template;
             copyButton.style.display = "block";
           } catch (err) {
             error.textContent =

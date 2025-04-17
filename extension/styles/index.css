@@ -48,6 +48,11 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+#id a{
+  text-align: center;
+  margin-top: .5rem;
+}
+
 input[type="file"] {
   display: none;
 }
