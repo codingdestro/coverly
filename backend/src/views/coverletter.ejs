@@ -137,7 +137,7 @@
       <div class="loading">Generating cover letter...</div>
       <div class="error"></div>
       <div class="result">
-        <button class="copy-button" style="display: none;">Copy</button>
+        <button class="copy-button" style="display: none">Copy</button>
         <div class="result-content"></div>
       </div>
     </div>
@@ -162,7 +162,7 @@
           const jobDescription = formData.get("jobDescription");
 
           try {
-            const response = await fetch("/api/deepseek/resume", {
+            const response = await fetch("/api/deepseek/coverletter", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -187,23 +187,26 @@
         });
     </script>
     <script>
-      document.querySelector(".copy-button").addEventListener("click", async () => {
-        const resultContent = document.querySelector(".result-content").textContent;
-        const copyButton = document.querySelector(".copy-button");
-        
-        try {
-          await navigator.clipboard.writeText(resultContent);
-          copyButton.textContent = "Copied!";
-          copyButton.classList.add("copied");
-          
-          setTimeout(() => {
-            copyButton.textContent = "Copy";
-            copyButton.classList.remove("copied");
-          }, 2000);
-        } catch (err) {
-          console.error("Failed to copy text:", err);
-        }
-      });
+      document
+        .querySelector(".copy-button")
+        .addEventListener("click", async () => {
+          const resultContent =
+            document.querySelector(".result-content").textContent;
+          const copyButton = document.querySelector(".copy-button");
+
+          try {
+            await navigator.clipboard.writeText(resultContent);
+            copyButton.textContent = "Copied!";
+            copyButton.classList.add("copied");
+
+            setTimeout(() => {
+              copyButton.textContent = "Copy";
+              copyButton.classList.remove("copied");
+            }, 2000);
+          } catch (err) {
+            console.error("Failed to copy text:", err);
+          }
+        });
     </script>
   </body>
 </html>
