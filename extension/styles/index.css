@@ -168,3 +168,16 @@ pre {
   translate: -50% -50%;
   color: red;
 }
+
+.logout-btn {
+  position: absolute;
+  background-color: #b71c1c;
+  color: white;
+  border: none;
+  top: 10px;
+  left: 10px;
+}
+.logout-btn:hover {
+  background-color: #b71c1c;
+  color: white;
+}

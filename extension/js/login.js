@@ -18,7 +18,7 @@ $("form").on("submit", (e) => {
     success: function (res) {
       if (!res.token) {
         createAlert(res.error, "form");
-        return
+        return;
       }
       chrome.storage.local.set({ token: res.token });
       $("#form").addClass("hidden");
@@ -57,3 +57,4 @@ const auth = () => {
     }
   });
 };
+

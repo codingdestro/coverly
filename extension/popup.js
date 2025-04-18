@@ -40,17 +40,8 @@ const getJobDescription = () => {
         return arr.join("");
       },
     })
-    .then((e) => {
-      $("pre").text(e[0].result);
-    });
+    .then(([e]) => $("pre").text(e.result));
 };
-// const url = "https://www.linkedin.com/jobs/collections/recommended/";
-$("#getDescription").on("click", () => {
-  if (!canGetJobDescription) return;
-  getJobDescription();
-});
-
-let isloading = false;
 
 $("#coverletter-btn").on("click", async () => {
   if (isloading) {
@@ -62,7 +53,7 @@ $("#coverletter-btn").on("click", async () => {
 
   try {
     isloading = true;
-    $("#coverletter-btn").addClass("state-loading")
+    $("#coverletter-btn").addClass("state-loading");
     const res = await $.ajax({
       url: "http://localhost:3000/api/deepseek/coverletter",
       type: "POST",
@@ -78,5 +69,14 @@ $("#coverletter-btn").on("click", async () => {
     createAlert("failed to generate coverletter!", "main");
   } finally {
     isloading = false;
+    $("#coverletter-btn").removeClass("state-loading");
   }
 });
+
+// const url = "https://www.linkedin.com/jobs/collections/recommended/";
+$("#getDescription").on("click", () => {
+  if (!canGetJobDescription) return;
+  getJobDescription();
+});
+
+let isloading = false;

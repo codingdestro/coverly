@@ -13,4 +13,8 @@ const createAlert = (message, target) => {
   }, 2000);
 };
 
-//Auth the user
+$(".logout-btn").on("click", () => {
+  chrome.storage.local.set({ token: "" });
+  $("#form").toggleClass("hidden");
+  $("#main").toggleClass("hidden");
+});
