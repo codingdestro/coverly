@@ -18,3 +18,17 @@ $(".logout-btn").on("click", () => {
   $("#form").toggleClass("hidden");
   $("#main").toggleClass("hidden");
 });
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text);
+}
+
+$(".copy-btn").on("click", () => {
+  const content = $("pre").text();
+  if (!content) return;
+  copyToClipboard(content);
+  $(".copy-btn").text("copied!");
+  setTimeout(() => {
+    $(".copy-btn").text("copy");
+  }, 1000);
+});

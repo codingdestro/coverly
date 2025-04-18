@@ -140,6 +140,13 @@ form {
   transform: scale(0.8);
 }
 
+.output-display{
+
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
 pre {
   max-width: 300px;
   max-height: 300px;
@@ -180,4 +187,14 @@ pre {
 .logout-btn:hover {
   background-color: #b71c1c;
   color: white;
+}
+.copy-btn{
+  top: 0;
+  right: 0;
+  padding: 4px;
+  border:1px solid grey;
+  border-radius: .2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
