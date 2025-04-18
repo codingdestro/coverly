@@ -48,9 +48,9 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-#id a{
+#id a {
   text-align: center;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 input[type="file"] {
@@ -138,4 +138,33 @@ form {
 }
 .click:active {
   transform: scale(0.8);
+}
+
+pre {
+  max-width: 300px;
+  max-height: 300px;
+  overflow: auto;
+  text-wrap: wrap;
+  border: 2px solid var(--primary);
+  border-radius: 0.4rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
+}
+
+.state-loading {
+  color: white;
+  position: relative;
+}
+.state-loading:hover {
+  color: white;
+  background-color: white;
+}
+
+.state-loading::before {
+  content: "wait...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  color: red;
 }

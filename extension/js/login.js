@@ -10,14 +10,12 @@ $("form").on("submit", (e) => {
     createAlert("please fill email and password!");
     return;
   }
-  // $(".alert").addClass("show");
   $.ajax({
     url: "http://localhost:3000/api/ext/login",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(user),
     success: function (res) {
-      console.log(res);
       if (!res.token) {
         createAlert(res.error, "form");
         return

@@ -14,5 +14,3 @@ const createAlert = (message, target) => {
 };
 
 //Auth the user
-;
-
