@@ -14,12 +14,5 @@ const createAlert = (message, target) => {
 };
 
 //Auth the user
-const auth = () => {
-  chrome.storage.local.get(["authToken"]).then((token) => {
-    if (token?.key) console.log("auth toekn", token.key);
-    else console.log("no auth token found!");
-  });
-};
+;
 
-//POST -> create cover letter according to job description
-const login = async () => {};

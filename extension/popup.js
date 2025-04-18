@@ -13,16 +13,7 @@ else console.log("we can not get job description...");
 auth()
 
 //handling login form
-$("form").on("submit", (e) => {
-  e.preventDefault();
-  const elements = $("form").children("input");
-  console.log({
-    email: elements[0],
-    password: elements[1],
-  });
-  // $(".alert").addClass("show");
-  createAlert("failed to login!", "form");
-});
+
 
 $(".switch-btn").on("click", () => {
   $("#form").toggleClass("hidden");
