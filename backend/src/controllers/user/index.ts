@@ -3,42 +3,37 @@ import type { Request, Response, NextFunction } from "express";
 import { generateToken, verifyToken } from "../../utils/jwt";
 import bcrypt from "bcrypt";
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const handleLogin = async (email: string, password: string) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("use not found!");
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    throw new Error("password din't match");
+  }
+
+  const token = await generateToken({
+    userId: user._id.toString(),
+    email: user.email,
+  });
+  return token;
+};
+
+export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.render("index", { error: "Invalid email or password" });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.render("index", { error: "Invalid email or password" });
-    }
-
-    const token = await generateToken({
-      userId: user._id.toString(),
-      email: user.email,
-    });
-
-    // Set the token in a cookie
+    const token = await handleLogin(email, password);
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    // Redirect to dashboard or home page after successful login
-    // res.json({ token }).status(200);
-    // res.redirect("/dashboard");
-    req.body.token = token;
-    next();
+    return res.redirect("/dashboard");
   } catch (error) {
     console.error("Login error:", error);
     res.render("index", { error: "An error occurred during login" });

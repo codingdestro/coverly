@@ -48,9 +48,9 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-#id a{
+#id a {
   text-align: center;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 input[type="file"] {
@@ -138,4 +138,63 @@ form {
 }
 .click:active {
   transform: scale(0.8);
+}
+
+.output-display{
+
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+pre {
+  max-width: 300px;
+  max-height: 300px;
+  overflow: auto;
+  text-wrap: wrap;
+  border: 2px solid var(--primary);
+  border-radius: 0.4rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
+}
+
+.state-loading {
+  color: white;
+  position: relative;
+}
+.state-loading:hover {
+  color: white;
+  background-color: white;
+}
+
+.state-loading::before {
+  content: "wait...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  color: red;
+}
+
+.logout-btn {
+  position: absolute;
+  background-color: #b71c1c;
+  color: white;
+  border: none;
+  top: 10px;
+  left: 10px;
+}
+.logout-btn:hover {
+  background-color: #b71c1c;
+  color: white;
+}
+.copy-btn{
+  top: 0;
+  right: 0;
+  padding: 4px;
+  border:1px solid grey;
+  border-radius: .2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
