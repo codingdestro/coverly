@@ -55,7 +55,7 @@ $("#coverletter-btn").on("click", async () => {
     isloading = true;
     $("#coverletter-btn").addClass("state-loading");
     const res = await $.ajax({
-      url: "http://localhost:3000/api/deepseek/coverletter",
+      url: "http://localhost:3000/api/deepseek/resume",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify({ jobDescription: jobDescription }),
@@ -63,8 +63,8 @@ $("#coverletter-btn").on("click", async () => {
         Authorization: `Bearer ${token.token}`,
       },
     });
-    if (!res.coverLetter) return;
-    $("pre").text(res.coverLetter);
+    if (!res.template) return;
+    $("pre").text(res.template);
   } catch {
     createAlert("failed to generate coverletter!", "main");
   } finally {

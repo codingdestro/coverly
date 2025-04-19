@@ -1,9 +1,5 @@
 import type { Request, Response } from "express";
-import {
-  createCoverLetterPrompt,
-  createResume,
-  createResume as resumeGenerator,
-} from "../../utils/deepseek";
+import { createCoverLetterPrompt, createResume } from "../../utils/deepseek";
 import deepseek from "../../utils/deepseek";
 import {
   UserDetails,
@@ -36,7 +32,7 @@ export const createCoverLetter = async (req: Request, res: Response) => {
 
   const prompt = createCoverLetterPrompt(jobDescription, candidateDetails);
   const coverLetter = await deepseek(prompt, userDetailsString);
-  res.json(coverLetter);
+  res.json({ ...coverLetter });
 };
 
 //User Resume creator from user details in db
@@ -62,7 +58,7 @@ export const createResumeTemplate = async (req: Request, res: Response) => {
      ${socialMediaString}, 
     `;
     const resume = await createResume(prompt);
-    res.json(resume);
+    res.json({ ...resume });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Error creating resume" });
