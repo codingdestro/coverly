@@ -104,7 +104,7 @@ export const createResume = async (prompt: string) => {
       },
       {
         role: "user",
-        content: `${pmt} inject the user details ${prompt} `,
+        content: `${pmt} inject the user details ${prompt} and output should in plain text , no markdown`,
       },
     ],
   });

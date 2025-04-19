@@ -19,25 +19,34 @@ router.post(
   async (req: express.Request, res: express.Response) => {
     try {
       const { email, password } = req.body;
-      if (!email && !password)
-        res.json({ error: "no credentianls" }).status(401);
+      if (!email && !password) {
+        res.statusCode = 401;
+        res.json({ error: "no credentianls" });
+      }
       const token = await handleLogin(email, password);
       res.json({ token }).status(200);
     } catch {
-      res.json({ error: "failed to login try again." }).status(401);
+      res.statusCode = 401;
+      res.json({ error: "failed to login try again." });
     }
   },
 );
 router.post("/ext/authenticate", async (req, res) => {
-  const token =
-    req.headers.cookie?.split("=")[1] ||
-    req.headers.authorization?.split(" ")[1];
-  if (token) {
-    const payload = await verifyToken(token);
-    const refereshToken = await generateToken(payload);
-    res.json({ token: refereshToken });
-  } else {
-    res.json({ err: "authenticate failed" }).status(401);
+  try {
+    const token =
+      req.headers.cookie?.split("=")[1] ||
+      req.headers.authorization?.split(" ")[1];
+    if (token) {
+      const payload = await verifyToken(token);
+      const refereshToken = await generateToken(payload);
+      res.json({ token: refereshToken });
+    } else {
+      res.statusCode = 401;
+      res.json({ err: "authenticate failed" });
+    }
+  } catch {
+    res.statusCode = 401;
+    res.json({ err: "authenticate failed" });
   }
 });
 
