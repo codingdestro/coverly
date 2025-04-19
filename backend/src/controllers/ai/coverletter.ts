@@ -7,6 +7,7 @@ import {
   Experience,
   Social,
 } from "../../models/userDetails";
+import { createPDF, filesPath } from "../userFiles";
 
 export const createCoverLetter = async (req: Request, res: Response) => {
   const { jobDescription } = req.body;
@@ -58,7 +59,9 @@ export const createResumeTemplate = async (req: Request, res: Response) => {
      ${socialMediaString}, 
     `;
     const resume = await createResume(prompt);
-    res.json({ ...resume });
+    const fileId = await createPDF(resume!.template);
+
+    res.json({ ...resume, fileId });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Error creating resume" });
