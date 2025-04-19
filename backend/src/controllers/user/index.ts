@@ -125,7 +125,8 @@ export const authenticate = async (
 
       next();
     } catch {
-      res.json({ error: "UnAuthorize" }).status(401);
+      res.statusCode = 401;
+      res.json({ error: "UnAuthorize" }).status(402);
     }
   } else {
     if (path === "/") {
@@ -133,7 +134,8 @@ export const authenticate = async (
     } else if (path === "/signup") {
       res.render("signup");
     } else {
-      res.json({ error: "UnAuthorize" }).status(401);
+      res.statusCode = 401;
+      res.json({ error: "UnAuthorize" });
     }
   }
 };

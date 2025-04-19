@@ -17,7 +17,7 @@ export const generateToken = async (payload: JwtPayload): Promise<string> => {
   const jwt = await new jose.SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("24h")
+    .setExpirationTime("1w")
     .sign(secret);
 
   return jwt;
