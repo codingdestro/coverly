@@ -6,11 +6,16 @@ const linkedinUrl = URL.parse(
 const canGetJobDescription =
   currentUrl.pathname == linkedinUrl.pathname &&
   currentUrl.host == linkedinUrl.host;
+if (!canGetJobDescription) {
+  $("html").addClass("hidden");
+}
 
 auth();
 
+let currentFileId = "";
+
 $(".switch-btn").on("click", () => {
-  $("#form").toggleClass("hidden");
+  $("#documents").toggleClass("hidden");
   $("#main").toggleClass("hidden");
 });
 
@@ -44,7 +49,7 @@ const getJobDescription = () => {
 };
 
 $("#coverletter-btn").on("click", async () => {
-  if (isloading) {
+  if ($("#coverletter-btn").hasClass("state-loading")) {
     return;
   }
   const jobDescription = $("pre").text();
@@ -52,10 +57,9 @@ $("#coverletter-btn").on("click", async () => {
   if (!jobDescription || !token) return;
 
   try {
-    isloading = true;
     $("#coverletter-btn").addClass("state-loading");
     const res = await $.ajax({
-      url: "http://localhost:3000/api/deepseek/resume",
+      url: "http://localhost:3000/api/deepseek/coverletter",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify({ jobDescription: jobDescription }),
@@ -67,8 +71,8 @@ $("#coverletter-btn").on("click", async () => {
     $("pre").text(res.template);
   } catch {
     createAlert("failed to generate coverletter!", "main");
+    $("#coverletter-btn").removeClass("state-loading");
   } finally {
-    isloading = false;
     $("#coverletter-btn").removeClass("state-loading");
   }
 });
@@ -79,4 +83,56 @@ $("#getDescription").on("click", () => {
   getJobDescription();
 });
 
-let isloading = false;
+//build resume
+
+$("#resume-btn").on("click", async () => {
+  if ($("#resume-btn").hasClass("state-loading")) return;
+  const { token } = await chrome.storage.local.get(["token"]);
+  if (!token) return;
+  $("#resume-btn").addClass("state-loading");
+  const res = await $.ajax({
+    url: "http://localhost:3000/api/deepseek/resume",
+    type: "POST",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (res.fileId) {
+    currentFileId = res.fileId;
+  }
+  $("#resume-btn").removeClass("state-loading");
+});
+
+$("#resume-download-btn").on("click", async () => {
+  if (!currentFileId) return;
+  if ($("#resume-download-btn").hasClass("state-loading")) return;
+  const { token } = await chrome.storage.local.get(["token"]);
+  const fileId = "1da147ea-15a2-452a-aa52-20ca13843a1c";
+  if (!token || !fileId) return;
+  $("#resume-download-btn").addClass("state-loading");
+  const res = await $.ajax({
+    url: "http://localhost:3000/api/documents/download",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+      fileId: currentFileId,
+    }),
+    xhrFields: {
+      responseType: "blob", // very important
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const blob = new Blob([res], { type: "application/pdf" });
+
+  const url = URL.createObjectURL(blob);
+
+  await chrome.downloads.download({
+    url: url,
+    filename: "your_file_name.pdf",
+    saveAs: true,
+  });
+  $("#resume-download-btn").removeClass("state-loading");
+});

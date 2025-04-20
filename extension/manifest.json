@@ -3,7 +3,7 @@
   "name": "Coverly",
   "version": "1.0",
   "description": "Coverly automates your job applying.",
-  "permissions": ["scripting", "activeTab", "storage"],
+  "permissions": ["downloads", "scripting", "activeTab", "storage"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -14,11 +14,5 @@
   },
   "background": {
     "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["js/jquery.min.js","js/login.js","js/utils.js"]
-    }
-  ]
+  }
 }

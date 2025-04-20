@@ -22,7 +22,7 @@ $("form").on("submit", (e) => {
       }
       chrome.storage.local.set({ token: res.token });
       $("#form").addClass("hidden");
-      $("#main").removeClass("hidden");
+      $("#page").removeClass("hidden");
     },
     error: function (error) {
       createAlert("failed to login!", "form");
@@ -44,17 +44,16 @@ const auth = () => {
         success: function (res) {
           chrome.storage.local.set({ token: res.token });
           $("#form").addClass("hidden");
-          $("#main").removeClass("hidden");
+          $("#page").removeClass("hidden");
         },
         error: function (error) {
           $("#form").removeClass("hidden");
-          $("#main").addClass("hidden");
+          $("#page").addClass("hidden");
         },
       });
     } else {
       $("#form").removeClass("hidden");
-      $("#main").addClass("hidden");
+      $("#page").addClass("hidden");
     }
   });
 };
-

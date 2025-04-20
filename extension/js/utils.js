@@ -16,7 +16,7 @@ const createAlert = (message, target) => {
 $(".logout-btn").on("click", () => {
   chrome.storage.local.set({ token: "" });
   $("#form").toggleClass("hidden");
-  $("#main").toggleClass("hidden");
+  $("#page").toggleClass("hidden");
 });
 
 function copyToClipboard(text) {
