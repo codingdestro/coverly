@@ -82,7 +82,7 @@ $("#getDescription").on("click", () => {
 
 $("#resume-btn").on("click", async () => {
   if ($("#resume-btn").hasClass("state-loading")) return;
-  const {token} = await chrome.storage.local.get(["token"]);
+  const { token } = await chrome.storage.local.get(["token"]);
   if (!token) return;
   $("#resume-btn").addClass("state-loading");
   const res = await $.ajax({
@@ -97,5 +97,34 @@ $("#resume-btn").on("click", async () => {
   console.log(res);
 });
 
+$("#resume-download-btn").on("click", async () => {
+  if ($("#resume-download-btn").hasClass("state-loading")) return;
+  const { token } = await chrome.storage.local.get(["token"]);
+  const fileId = "1da147ea-15a2-452a-aa52-20ca13843a1c";
+  if (!token || !fileId) return;
+  $("#resume-download-btn").addClass("state-loading");
+  const res = await $.ajax({
+    url: "http://localhost:3000/api/documents/download",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+      fileId,
+    }),
+    xhrFields: {
+      responseType: "blob", // very important
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const blob = new Blob([res], { type: "application/pdf" });
 
+  const url = URL.createObjectURL(blob);
 
+  const x = await chrome.downloads.download({
+    url: url,
+    filename: "your_file_name.pdf",
+    saveAs: true,
+  });
+  $("#resume-download-btn").removeClass("state-loading");
+});
