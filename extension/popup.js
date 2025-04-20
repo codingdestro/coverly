@@ -44,7 +44,7 @@ const getJobDescription = () => {
 };
 
 $("#coverletter-btn").on("click", async () => {
-  if (isloading) {
+  if ($("#coverletter-btn").hasClass("state-loading")) {
     return;
   }
   const jobDescription = $("pre").text();
@@ -52,7 +52,6 @@ $("#coverletter-btn").on("click", async () => {
   if (!jobDescription || !token) return;
 
   try {
-    isloading = true;
     $("#coverletter-btn").addClass("state-loading");
     const res = await $.ajax({
       url: "http://localhost:3000/api/deepseek/resume",
@@ -79,4 +78,24 @@ $("#getDescription").on("click", () => {
   getJobDescription();
 });
 
-let isloading = false;
+//build resume
+
+$("#resume-btn").on("click", async () => {
+  if ($("#resume-btn").hasClass("state-loading")) return;
+  const {token} = await chrome.storage.local.get(["token"]);
+  if (!token) return;
+  $("#resume-btn").addClass("state-loading");
+  const res = await $.ajax({
+    url: "http://localhost:3000/api/deepseek/resume",
+    type: "POST",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  $("#resume-btn").removeClass("state-loading");
+  console.log(res);
+});
+
+
+

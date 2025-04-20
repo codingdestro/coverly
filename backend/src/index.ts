@@ -9,6 +9,7 @@ import userRoutes from "./routes/user";
 import deepseekRoutes from "./routes/deepseek";
 import userDetailsRoutes from "./routes/userDetails";
 import staticRoutes from "./routes/static";
+import userDocuments from "./routes/userFiles";
 // Load environment variables
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use("/", staticRoutes);
 app.use("/api/", userRoutes);
 app.use("/api/deepseek", deepseekRoutes);
 app.use("/api/userDetails", userDetailsRoutes);
+app.use("/api/documents", userDocuments);
 // Error handling middleware
 app.use(errorHandler);
 

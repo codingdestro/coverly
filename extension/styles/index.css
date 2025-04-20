@@ -13,6 +13,12 @@ body {
   height: 512px;
   border-radius: 2rem;
 }
+.heading {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  translate: -50%;
+}
 
 .hidden {
   display: none;
@@ -140,8 +146,7 @@ form {
   transform: scale(0.8);
 }
 
-.output-display{
-
+.output-display {
   display: flex;
   justify-content: center;
   align-items: start;
@@ -188,12 +193,12 @@ pre {
   background-color: #b71c1c;
   color: white;
 }
-.copy-btn{
+.copy-btn {
   top: 0;
   right: 0;
   padding: 4px;
-  border:1px solid grey;
-  border-radius: .2rem;
+  border: 1px solid grey;
+  border-radius: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
