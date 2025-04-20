@@ -69,7 +69,7 @@ export const createResumeTemplate = async (req: Request, res: Response) => {
     });
     await newDocument.save();
 
-    res.json({ ...resume, fileId });
+    res.json({ fileId });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Error creating resume" });

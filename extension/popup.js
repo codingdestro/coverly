@@ -6,11 +6,16 @@ const linkedinUrl = URL.parse(
 const canGetJobDescription =
   currentUrl.pathname == linkedinUrl.pathname &&
   currentUrl.host == linkedinUrl.host;
+if (!canGetJobDescription) {
+  $("html").addClass("hidden");
+}
 
 auth();
 
+let currentFileId = "";
+
 $(".switch-btn").on("click", () => {
-  $("#form").toggleClass("hidden");
+  $("#documents").toggleClass("hidden");
   $("#main").toggleClass("hidden");
 });
 
@@ -54,7 +59,7 @@ $("#coverletter-btn").on("click", async () => {
   try {
     $("#coverletter-btn").addClass("state-loading");
     const res = await $.ajax({
-      url: "http://localhost:3000/api/deepseek/resume",
+      url: "http://localhost:3000/api/deepseek/coverletter",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify({ jobDescription: jobDescription }),
@@ -66,8 +71,8 @@ $("#coverletter-btn").on("click", async () => {
     $("pre").text(res.template);
   } catch {
     createAlert("failed to generate coverletter!", "main");
+    $("#coverletter-btn").removeClass("state-loading");
   } finally {
-    isloading = false;
     $("#coverletter-btn").removeClass("state-loading");
   }
 });
@@ -93,11 +98,14 @@ $("#resume-btn").on("click", async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+  if (res.fileId) {
+    currentFileId = res.fileId;
+  }
   $("#resume-btn").removeClass("state-loading");
-  console.log(res);
 });
 
 $("#resume-download-btn").on("click", async () => {
+  if (!currentFileId) return;
   if ($("#resume-download-btn").hasClass("state-loading")) return;
   const { token } = await chrome.storage.local.get(["token"]);
   const fileId = "1da147ea-15a2-452a-aa52-20ca13843a1c";
@@ -108,7 +116,7 @@ $("#resume-download-btn").on("click", async () => {
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({
-      fileId,
+      fileId: currentFileId,
     }),
     xhrFields: {
       responseType: "blob", // very important
@@ -121,7 +129,7 @@ $("#resume-download-btn").on("click", async () => {
 
   const url = URL.createObjectURL(blob);
 
-  const x = await chrome.downloads.download({
+  await chrome.downloads.download({
     url: url,
     filename: "your_file_name.pdf",
     saveAs: true,
