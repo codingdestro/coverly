@@ -150,11 +150,12 @@ form {
   display: flex;
   justify-content: center;
   align-items: start;
+  position: relative;
 }
 
 pre {
-  max-width: 300px;
-  max-height: 300px;
+  width: 300px;
+  height: 300px;
   overflow: auto;
   text-wrap: wrap;
   border: 2px solid var(--primary);
@@ -194,6 +195,7 @@ pre {
   color: white;
 }
 .copy-btn {
+  position: absolute;
   top: 0;
   right: 0;
   padding: 4px;
@@ -201,5 +203,6 @@ pre {
   border-radius: 0.2rem;
   display: flex;
   align-items: center;
+  transform: translate(80%,-50%);
   justify-content: center;
 }

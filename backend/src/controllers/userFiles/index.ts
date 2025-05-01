@@ -4,17 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 import util from "util";
 const execAsync = util.promisify(exec);
 
-export const filesPath = "/home/anas/projects/coverly/backend/files";
+export const filesPath =
+  "/home/anas/projects/chrome-extensions/coverly/backend/files";
 
 export const createUserFile = async (fileData: string) => {
   const fileId = uuidv4();
-  fs.writeFileSync(
-    `/home/anas/projects/coverly/backend/files/${fileId}`,
-    fileData,
-    {
-      flag: "w",
-    },
-  );
+  fs.writeFileSync(`${filesPath}/${fileId}`, fileData, {
+    flag: "w",
+  });
   return fileId;
 };
 // latexmk -pdf -outdir=build main.tex
@@ -39,7 +36,8 @@ export const createPDF = async (data: string) => {
     const fileId = await createUserFile(data);
     await handleUserFile(fileId);
     return fileId;
-  } catch {
+  } catch (error) {
+    console.log(error);
     throw new Error("failed to create pdf!");
   }
 };
