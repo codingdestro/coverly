@@ -205,8 +205,8 @@ export const createResume = async (prompt: string) => {
     messages: [
       {
         role: "system",
-        content: `you are latex resume template generate, you creates template according to user details and context of template. the output
-        should be in latex formate and don't add any comment or anything else.`,
+        content: `You are a LaTeX resume template generator. Your task is to generate a complete and clean LaTeX resume template based on the user's input. The user will provide personal details, job/industry context, and preferred layout or style if any. Use this information to structure the resume accordingly. The output must be a valid LaTeX document, including all necessary document structure (preamble, packages, document environment, etc.). Do not include any comments, explanations, or extra text—only the final LaTeX code.
+        Be precise, clean, and use standard LaTeX formatting conventions suitable for professional resumes`,
       },
       {
         role: "user",
