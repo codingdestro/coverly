@@ -25,12 +25,6 @@ export const handleUserFile = async (fileId: string) => {
   return stdout;
 };
 
-export const cleanLatexRaw = async () => {
-  const { stderr, stdout } = await execAsync(
-    "rm -rf /home/anas/projects/coverly/backend/files/",
-  );
-};
-
 export const createPDF = async (data: string) => {
   try {
     const fileId = await createUserFile(data);
