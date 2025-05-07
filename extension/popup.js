@@ -1,8 +1,11 @@
+// Get the currently active tab
 const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 const currentUrl = URL.parse(tab.url);
 const linkedinUrl = URL.parse(
   "https://www.linkedin.com/jobs/collections/recommended/"
 );
+
+// Check if we're on the LinkedIn jobs page
 const canGetJobDescription =
   currentUrl.pathname == linkedinUrl.pathname &&
   currentUrl.host == linkedinUrl.host;
@@ -10,15 +13,19 @@ if (!canGetJobDescription) {
   $("html").addClass("hidden");
 }
 
+// Initialize authentication
 auth();
 
+// Store the current file ID for resume downloads
 let currentFileId = "";
 
+// Toggle between documents and main view
 $(".switch-btn").on("click", () => {
   $("#documents").toggleClass("hidden");
   $("#main").toggleClass("hidden");
 });
 
+// Function to extract job description from LinkedIn page
 const getJobDescription = () => {
   chrome.scripting
     .executeScript({
@@ -26,17 +33,19 @@ const getJobDescription = () => {
       func: () => {
         const elements = document.querySelector(".jobs-description-content");
         const arr = [""];
+        
+        // Helper function to traverse DOM and extract text content
         function traverseDOM(element, callback) {
           if (!element) return;
 
-          // Run the callback on the current element
+          // Strip HTML tags and clean text
           function stripHTMLTagsFromArray(str) {
             return str.replace(/<[^>]*>/g, "").trim();
           }
           let x = stripHTMLTagsFromArray(element.innerHTML);
           if (x) if (arr.length > 0 && arr[arr.length - 1] != x) arr.push(x);
 
-          // Traverse child nodes (recursive)
+          // Recursively process child elements
           for (let i = 0; i < element.children.length; i++) {
             traverseDOM(element.children[i], callback);
           }
@@ -48,6 +57,7 @@ const getJobDescription = () => {
     .then(([e]) => $("pre").text(e.result));
 };
 
+// Generate cover letter based on job description
 $("#coverletter-btn").on("click", async () => {
   if ($("#coverletter-btn").hasClass("state-loading")) {
     return;
@@ -77,14 +87,13 @@ $("#coverletter-btn").on("click", async () => {
   }
 });
 
-// const url = "https://www.linkedin.com/jobs/collections/recommended/";
+// Get job description from LinkedIn page
 $("#getDescription").on("click", () => {
   if (!canGetJobDescription) return;
   getJobDescription();
 });
 
-//build resume
-
+// Generate resume using AI
 $("#resume-btn").on("click", async () => {
   if ($("#resume-btn").hasClass("state-loading")) return;
   const { token } = await chrome.storage.local.get(["token"]);
@@ -104,6 +113,7 @@ $("#resume-btn").on("click", async () => {
   $("#resume-btn").removeClass("state-loading");
 });
 
+// Download generated resume
 $("#resume-download-btn").on("click", async () => {
   if (!currentFileId) return;
   if ($("#resume-download-btn").hasClass("state-loading")) return;
@@ -119,7 +129,7 @@ $("#resume-download-btn").on("click", async () => {
       fileId: currentFileId,
     }),
     xhrFields: {
-      responseType: "blob", // very important
+      responseType: "blob", // Set response type to blob for file download
     },
     headers: {
       Authorization: `Bearer ${token}`,
@@ -129,6 +139,7 @@ $("#resume-download-btn").on("click", async () => {
 
   const url = URL.createObjectURL(blob);
 
+  // Trigger file download using Chrome's download API
   await chrome.downloads.download({
     url: url,
     filename: "your_file_name.pdf",
